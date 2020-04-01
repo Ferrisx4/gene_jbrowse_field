@@ -1,0 +1,6 @@
+description = Add a JBrowse field to Gene pages
+core = 7.x
+package = Tripal Extensions
+files[] = gene_jbrowse_field.module
+version=7.x-3.0
+dependencies[] = tripal
