@@ -37,6 +37,17 @@ class local__jbrowse_link_formatter extends ChadoFieldFormatter {
 
     // Get the settings
     $settings = $display['settings'];
+    $field = 'local__jbrowse_link';
+
+    //dpm($entity->{$field}['und'][0]['value']);
+    //$output = $entity->{$field}['und'][0]['value'];
+
+    $output = $entity->{$field}['und'][0]['value'];
+    $iframe_code = '<iframe width="100%" height="500px" src="'.$output.'"></iframe>';
+      $element[] = [
+        '#type' => 'markup',
+        '#markup' => $iframe_code,
+      ];
   }
 
     /**
