@@ -97,7 +97,7 @@ class local__jbrowse_link extends ChadoField {
   // should exclude the field from web services or downloads.  An example
   // could be a quick search field that appears on the page that redirects
   // the user but otherwise provides no data.
-  public static $no_data = FALSE;
+  public static $no_data = TRUE;
 
    /**
     * @see ChadoField::load()
@@ -111,6 +111,71 @@ class local__jbrowse_link extends ChadoField {
     // need to implement this function. However, if you need to add any
     // additional data to be used in the display, you should add it here.
     parent::load($entity);
+    $field = get_class($this);
+
+    // Get the record
+    $record = $entity->chado_record;
+
+    /**
+     * Gather the necessary information to construct a link
+     * Example:
+     * https://apollo.nal.usda.gov/apollo/Oncopeltus%20fasciatus/jbrowse/?loc=Scaffold25%3A333819..335126
+    */
+
+    // Hardcode the URL for now
+    $base_url = "https://apollo.nal.usda.gov/apollo/";
+
+    // Get the genus, species
+    if ($record)
+    {
+      // genus, species
+      $organism = $record->organism_id;
+
+      $genus  = $organism->genus;
+      $species = $organism->species;
+    }
+    else
+    {
+      dpm("Could not get the record");
+      return;
+    }
+
+    // Get the gene location info 
+    $options = [
+      'return_array' => TRUE,
+      'order_by' => ['rank' => 'ASC'],
+    ];
+    $feature = chado_expand_var($record, 'table', 'featureloc', $options);
+    
+    $aligned = $feature->featureloc->feature_id;
+    if ($aligned) {
+      foreach ($aligned as $index => $featureloc) {
+        $srcfeature = $featureloc->srcfeature_id->name;
+        $strand = '';
+        if ($featureloc->strand == 1) {
+          $strand = '+';
+        }
+        elseif ($featureloc->strand == -1) {
+          $strand = '-';
+        }
+        else {
+          $strand = '';
+        }
+        $fmin = $featureloc->fmin + 1;
+        $fmax = $featureloc->fmax;
+        $seq_coords = $srcfeature . ':' . $fmin . '..' . $fmax . $strand;
+      }
+    }
+    
+    // Do some text manipulation
+    // for i5k, we need Gggsss (First three of genus, first three of species)
+    $genus_code   = substr($genus, 0, 3);
+    $species_code = substr($species, 0, 3);
+
+    // All together now!
+    $ext_jb_url = $base_url.$genus.'%20'.$species.'/jbrowse/?loc='.$seq_coords.'&tracks=DNA%2CAnnotations%2C'.$genus_code.$species_code.'_current_models';
+
+    $entity->{$field}['und'][0]['value'] = $ext_jb_url;
   }
 
 
