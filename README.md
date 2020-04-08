@@ -1,7 +1,8 @@
 # Gene JBrowse Fields
-This module attempts to create a field on Gene pages that will either be a link out to an already existing JBrowse instance or display one in an iframe within the page itself.
+This module attempts to create a field on Gene pages that will either be an iframe or a link out to an existing JBrowse instance.
 
 It is purely a learning module. Hopefully some of this work will eventually make its way into the Tripal JBrowse module
+It is currently hardcoded with the i5k site in mind, for use on an upgraded Tripal 3 version of the site. 
 
 ## Progress
  - [x] Get field, widget added
