@@ -169,7 +169,7 @@ class local__jbrowse_link extends ChadoField {
     
     // Do some text manipulation
     // for i5k, we need Gggsss (First three of genus, first three of species)
-    $genus_code   = substr($genus, 0, 3);
+    $genus_code   = strtolower(substr($genus, 0, 3));
     $species_code = substr($species, 0, 3);
 
     // All together now!
