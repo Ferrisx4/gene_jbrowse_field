@@ -1,0 +1,47 @@
+<?php
+
+/**
+ * Implements hook_install()
+ * 
+ */
+function gene_jbrowse_field_install()
+{
+    $defaults = array(
+        'name'  => 'url_template',
+        'value' => 'https://default.com/[genus]'
+    );
+
+    drupal_write_record('gene_jbrowse_field_config',$defaults);
+}
+
+/**
+ * implements hook_schema()
+ * 
+ * Define the complex database schema for this module
+ */
+function gene_jbrowse_field_schema()
+{
+    $schema['gene_jbrowse_field_config'] = array(
+        'description'   => t('Gene JBrowse Field Config'),
+        'fields' => array(
+            'config_id' => array(
+                'description' => t('Primary key'),
+                'type' => 'serial',
+                'unsigned' => true,
+                'not null' => true,
+            ),
+            'name' => array(
+                'description' => t('Config name'),
+                'type' => 'varchar',
+                'length'    => 100,
+            ),
+            'value' => array(
+                'description' => t('Config value'),
+                'type' => 'varchar',
+                'length'    => 512,
+            ),
+        ),
+    );
+
+    return $schema;
+}
