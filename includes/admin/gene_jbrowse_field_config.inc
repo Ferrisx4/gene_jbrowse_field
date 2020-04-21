@@ -113,7 +113,37 @@ $new_value = array(
     'name'  => 'url_template',
     'value' => $url_template,
 );
-dpm($new_value);
 drupal_write_record('gene_jbrowse_field_config',$new_value,'config_id');
 
+
+/**
+ * PURELY FOR TESTING - MOVE TO APPROPRIATE PLACE LATER
+ */
+// Associative array of basic template tokens
+$toks = array(
+    'genus'         => 'fraxinus',
+    'species'       => 'excelsior',
+    'common name'   => 'European ash',
+    'coords'        => '71 42',
+    'child sequence name'   => 'some child',
+    'gene name'     => 'wrangler',
+    'analysis name' => 'blue analysis'
+);
+// Expand the array with special CaSeS and such
+$toks['Genus']      = ucfirst($toks[genus]);
+$toks['Species']    = ucfirst($toks[species]);
+$toks['g']          = substr($toks[genus],0,1);
+$toks['s']          = substr($toks[species],0,1);
+$toks['G']          = substr($toks[Genus],0,1);
+$toks['S']          = substr($toks[Species],0,1);
+
+dpm($toks);
+
+foreach($toks as $key => $token)
+{
+    $pattern = '/\['.$key.'\]/';
+    //dpm($pattern);
+    $url_template = preg_replace($pattern,$token,$url_template);
+}
+    dpm($url_template);
 }

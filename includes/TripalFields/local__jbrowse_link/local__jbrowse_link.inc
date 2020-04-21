@@ -123,7 +123,20 @@ class local__jbrowse_link extends ChadoField {
     */
 
     // Hardcode the URL for now
-    $base_url = "https://apollo.nal.usda.gov/apollo/";
+    //$base_url = "https://apollo.nal.usda.gov/apollo/";
+    // Get the URL template
+    // Load saved settings from the database
+    $query = "select name, value from gene_jbrowse_field_config where name='url_template'";
+    $results = db_query($query);
+
+    if ($results->rowCount() == 0)
+    {
+        $url_template = "https://";
+    }
+    else
+    {
+        $url_template = $results->fetchAssoc()[value];
+    }
 
     // Get the genus, species
     if ($record)
