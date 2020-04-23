@@ -43,8 +43,8 @@ class local__jbrowse_link_formatter extends ChadoFieldFormatter {
     //$output = $entity->{$field}['und'][0]['value'];
 
     $output = $entity->{$field}['und'][0]['value'];
-    //$iframe_code = '<iframe width="100%" height="500px" src="'.$output.'"></iframe>';
-    $iframe_code = '<a id="iframe_code" target="_blank" href="'.$output.'">The JBrowse (opens in new tab): '.$output.'</a>';
+    $iframe_code = '<iframe width="100%" height="500px" src="'.$output.'"></iframe>';
+    // for testing without burdening the remote resource: $iframe_code = '<a id="iframe_code" target="_blank" href="'.$output.'">The JBrowse (opens in new tab): '.$output.'</a>';
       $element[] = [
         '#type' => 'markup',
         '#markup' => $iframe_code,

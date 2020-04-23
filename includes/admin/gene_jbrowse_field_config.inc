@@ -99,51 +99,21 @@ function gene_jbrowse_field_config_form_validate($form, &$form_state)
  */
 function gene_jbrowse_field_config_form_submit($form, &$form_state)
 {
-// Perform the same regex functions from the Javascript preview
-$url_template = $form_state['values']['url_template'];
+    // Perform the same regex functions from the Javascript preview
+    $url_template = $form_state['values']['url_template'];
 
-// Get the config_id associated to this setting
-$query = "select config_id from gene_jbrowse_field_config where name='url_template'";
-$results = db_query($query);
-$config_id = $results->fetchAssoc()[config_id];
-// Submit to the database
+    // Get the config_id associated to this setting
+    $query = "select config_id from gene_jbrowse_field_config where name='url_template'";
+    $results = db_query($query);
+    $config_id = $results->fetchAssoc()[config_id];
+    // Submit to the database
 
-$new_value = array(
-    'config_id' => $config_id,
-    'name'  => 'url_template',
-    'value' => $url_template,
-);
-drupal_write_record('gene_jbrowse_field_config',$new_value,'config_id');
+    $new_value = array(
+        'config_id' => $config_id,
+        'name'  => 'url_template',
+        'value' => $url_template,
+    );
+    drupal_write_record('gene_jbrowse_field_config',$new_value,'config_id');
 
-
-/**
- * PURELY FOR TESTING - MOVE TO APPROPRIATE PLACE LATER
- */
-// Associative array of basic template tokens
-$toks = array(
-    'genus'         => 'fraxinus',
-    'species'       => 'excelsior',
-    'common name'   => 'European ash',
-    'coords'        => '71 42',
-    'child sequence name'   => 'some child',
-    'gene name'     => 'wrangler',
-    'analysis name' => 'blue analysis'
-);
-// Expand the array with special CaSeS and such
-$toks['Genus']      = ucfirst($toks[genus]);
-$toks['Species']    = ucfirst($toks[species]);
-$toks['g']          = substr($toks[genus],0,1);
-$toks['s']          = substr($toks[species],0,1);
-$toks['G']          = substr($toks[Genus],0,1);
-$toks['S']          = substr($toks[Species],0,1);
-
-dpm($toks);
-
-foreach($toks as $key => $token)
-{
-    $pattern = '/\['.$key.'\]/';
-    //dpm($pattern);
-    $url_template = preg_replace($pattern,$token,$url_template);
-}
-    dpm($url_template);
+    drupal_set_message("URL Templated updated");
 }

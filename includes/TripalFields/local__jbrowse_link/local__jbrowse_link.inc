@@ -137,15 +137,15 @@ class local__jbrowse_link extends ChadoField {
     {
         $url_template = $results->fetchAssoc()[value];
     }
-
     // Get the genus, species
     if ($record)
     {
-      // genus, species
+      // genus, species, common name
       $organism = $record->organism_id;
 
       $genus  = $organism->genus;
       $species = $organism->species;
+      $common_name = $organism->common_name;
     }
     else
     {
@@ -179,16 +179,56 @@ class local__jbrowse_link extends ChadoField {
         $seq_coords = $srcfeature . ':' . $fmin . '..' . $fmax . $strand;
       }
     }
-    
+
+    // Get the analysis object and related data
+    $id = $record->feature_id;
+    $analyses = chado_query('SELECT * FROM {analysisfeature} 
+                              WHERE feature_id = :id', [
+      ':id' => $id,
+    ])->fetchAll();
+    foreach($analyses as $analysis)
+    {
+      $analysis_entity_id = chado_get_record_entity_by_table('analysis', $analysis->analysis_id);
+    }
+    $analysis_title = db_query('SELECT title FROM {tripal_entity} WHERE id=:id', [':id' => $analysis_entity_id])->fetchField();
+
     // Do some text manipulation
     // for i5k, we need Gggsss (First three of genus, first three of species)
-    $genus_code   = strtolower(substr($genus, 0, 3));
-    $species_code = substr($species, 0, 3);
+    //$genus_code   = strtolower(substr($genus, 0, 3));
+    //$species_code = substr($species, 0, 3);
 
+    /**
+     * Assemble the array of all available tokens and their real values
+     */
+    // Associative array of basic template tokens
+    $toks = array(
+      'genus'         => strtolower($genus),
+      'species'       => $species,
+      'common name'   => $common_name,
+      'coords'        => $seq_coords,
+      //'child sequence name'   => 'some child',
+      'gene name'     => $record->name,
+      'analysis name' => $analysis_title
+    );
+    // Expand the array with special CaSeS and such
+    $toks['Genus']      = ucfirst($toks[genus]);
+    $toks['Species']    = ucfirst($toks[species]);
+    $toks['g']          = strtolower(substr($toks[genus],0,1));
+    $toks['s']          = substr($toks[species],0,1);
+    $toks['G']          = substr($toks[Genus],0,1);
+    $toks['S']          = substr($toks[Species],0,1);
+
+
+    foreach($toks as $key => $token)
+    {
+        $pattern = '/\['.$key.'\]/';
+        //dpm($pattern);
+        $url_template = preg_replace($pattern,$token,$url_template);
+    }
     // All together now!
-    $ext_jb_url = $base_url.$genus.'%20'.$species.'/jbrowse/?loc='.$seq_coords.'&tracks=DNA%2CAnnotations%2C'.$genus_code.$species_code.'_current_models';
+    //$ext_jb_url = $base_url.$genus.'%20'.$species.'/jbrowse/?loc='.$seq_coords.'&tracks=DNA%2CAnnotations%2C'.$genus_code.$species_code.'_current_models';
 
-    $entity->{$field}['und'][0]['value'] = $ext_jb_url;
+    $entity->{$field}['und'][0]['value'] = $url_template;
   }
 
 
@@ -226,6 +266,13 @@ class local__jbrowse_link extends ChadoField {
     );
   }
 
+  /**
+   * Fetch all the relevant data
+   */
+  public function get_chado_data()
+  {
+
+  }
 }
 
 
