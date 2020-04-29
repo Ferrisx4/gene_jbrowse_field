@@ -97,7 +97,7 @@ class local__jbrowse_link extends ChadoField {
   // should exclude the field from web services or downloads.  An example
   // could be a quick search field that appears on the page that redirects
   // the user but otherwise provides no data.
-  public static $no_data = TRUE;
+  public static $no_data = FALSE;
 
    /**
     * @see ChadoField::load()
@@ -222,7 +222,6 @@ class local__jbrowse_link extends ChadoField {
     foreach($toks as $key => $token)
     {
         $pattern = '/\['.$key.'\]/';
-        //dpm($pattern);
         $url_template = preg_replace($pattern,$token,$url_template);
     }
     // All together now!
