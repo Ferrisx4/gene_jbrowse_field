@@ -21,4 +21,4 @@ It is currently hardcoded with the i5k site in mind, for use on an upgraded Trip
  - [ ] Generate secondary widget/formatter to let the admin choose how to display
     - [x] JBrowse iframe
     - [ ] Link
- - [ ] Make links dynamically generated (possible to not have to read from DB each time?)
+ - [x] Make links dynamically generated (possible to not have to read from DB each time?)
