@@ -1,17 +1,21 @@
 # Gene JBrowse Fields
-This module attempts to create a field on Gene pages that will either be an iframe or a link out to an existing JBrowse instance.
+This module creates a field on Gene pages that features a JBrowse instance embedded in an iframe
 
-It is purely a learning module. Hopefully some of this work will eventually make its way into the Tripal JBrowse module
-It is currently hardcoded with the i5k site in mind, for use on an upgraded Tripal 3 version of the site. 
+The URL of the JBrowse instance in the iframe is configurable to fit most URL schemas. *The JBrowse instance must already exist.*
 
 
 ## Instructions
+#### Installation
 1. Install and enable this module in your normal place
 2. clear the cache: ```drush cc all```
-3. Navigate to the Tripal 3 Content Type administration page for Gene type
-`http://i5k2.local/admin/structure/bio_data/manage/` and click on "Manage Fields"
-4. Click "+ Check for new fields".  It should find the `local__jbrowse_link` field
-5. On the "Manage Display" tab, drag the newly created JBrowse field to where you want it to display.
+#### Configuration
+3. Navigate to `admin/tripal/extension/gene_jbrowse_field/config` in the browser to construct the URL. Use the tokens provided to ensure that the URL actually resolves to your JBrowse instance.
+
+#### Enable Field
+4. Navigate to the Tripal 3 Content Type administration page for Gene type
+`/admin/structure/bio_data/manage/` and click on "Manage Fields"
+5. Click "+ Check for new fields".  It should find the `local__jbrowse_link` field
+6. On the "Manage Display" tab, drag the newly created JBrowse field to where you want it to display.
 
 ## Progress
  - [x] Get field, widget added
