@@ -17,7 +17,7 @@ It is currently hardcoded with the i5k site in mind, for use on an upgraded Trip
  - [x] Get field, widget added
  - [x] Get (any) data to show up in the field
  - [x] Get desired info from database, construct iframe.
- - [ ] Remove hardcoded i5k-centric URL parameters
+ - [x] Remove hardcoded i5k-centric URL parameters
  - [ ] Generate secondary widget/formatter to let the admin choose how to display
     - [x] JBrowse iframe
     - [ ] Link
