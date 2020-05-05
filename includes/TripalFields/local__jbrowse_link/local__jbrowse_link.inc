@@ -192,11 +192,6 @@ class local__jbrowse_link extends ChadoField {
     }
     $analysis_title = db_query('SELECT title FROM {tripal_entity} WHERE id=:id', [':id' => $analysis_entity_id])->fetchField();
 
-    // Do some text manipulation
-    // for i5k, we need Gggsss (First three of genus, first three of species)
-    //$genus_code   = strtolower(substr($genus, 0, 3));
-    //$species_code = substr($species, 0, 3);
-
     /**
      * Assemble the array of all available tokens and their real values
      */
