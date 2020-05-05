@@ -8,3 +8,31 @@
 
 # Include the field for the JBrowse linkout from Gene pages
 include('includes/gene_jbrowse_field.fields.inc');
+
+/**
+ * Implements hook_menu()
+ * 
+ * Define the menu!
+ */
+function gene_jbrowse_field_menu()
+{
+    $items = array();
+
+    /**
+     * Main configuration
+     * 
+     */
+
+     $items['admin/tripal/extension/gene_jbrowse_field/config'] = array(
+        'title' =>  'Gene JBrowse Field Configuration',
+        'description'   =>  'Configuration for the Gene JBrowse Field module',
+        'page callback' => 'drupal_get_form',
+        'page arguments'=>  array('gene_jbrowse_field_config_form'),
+        'type'  =>  MENU_NORMAL_ITEM,
+        'file'  =>  'includes/admin/gene_jbrowse_field_config.inc',
+        'file path'     =>  drupal_get_path('module','gene_jbrowse_field'),
+        'access arguments' => array('administer gene jbrowse field'),
+    );
+
+    return $items;
+}
