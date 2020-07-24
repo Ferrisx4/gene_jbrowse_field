@@ -18,13 +18,19 @@ var subs = new Object();
     $("jbrowse_preview_link").innerHTML = "hello";
   }); */
 
-jQuery(document).ready(function ($){
-    main($);
-    // Update the link and preview on text field change
-    $('#url_template_field').on('input',function(e){
+var url = window.location.href;
+if (url.includes("gene_jbrowse_field/config"))
+{
+    jQuery(document).ready(function ($){
+        // Are we on the gene_jbrwose_field config page?
+        // TODO: this
         main($);
+        // Update the link and preview on text field change
+        $('#url_template_field').on('input',function(e){
+            main($);
+        });
     });
-});
+}
 
 // Main (the meat and potatoes)
 function main($)
