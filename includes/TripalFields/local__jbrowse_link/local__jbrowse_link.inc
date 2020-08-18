@@ -192,6 +192,20 @@ class local__jbrowse_link extends ChadoField {
     }
     $analysis_title = db_query('SELECT title FROM {tripal_entity} WHERE id=:id', [':id' => $analysis_entity_id])->fetchField();
 
+    // Get information of the children.
+    // @TODO - are there genes that have multiple children, and if so, how do we deal with them?
+    $child_finder_sql = "
+      SELECT F.name,F.uniquename
+      FROM {feature_relationship} FR
+        INNER JOIN {feature} F on FR.subject_id = F.feature_id
+        INNER JOIN {cvterm} CVT on CVT.cvterm_id = F.type_id
+        INNER JOIN {cvterm} RCVT on RCVT.cvterm_id = FR.type_id
+      WHERE
+        FR.object_id = :id 
+      ORDER BY FR.rank ASC";
+    $children = chado_query($child_finder_sql, [':id' => $id]);
+    $child = $children->fetchObject();
+
     /**
      * Assemble the array of all available tokens and their real values
      */
@@ -201,7 +215,7 @@ class local__jbrowse_link extends ChadoField {
       'species'       => $species,
       'common name'   => $common_name,
       'coords'        => $seq_coords,
-      //'child sequence name'   => 'some child',
+      'child sequence name' => $child->name,
       'gene name'     => $record->name,
       'analysis name' => $analysis_title
     );
