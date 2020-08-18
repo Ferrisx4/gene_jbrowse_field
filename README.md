@@ -17,7 +17,7 @@ The URL of the JBrowse instance in the iframe is configurable to fit most URL sc
 5. Click "+ Check for new fields".  It should find the `local__jbrowse_link` field
 6. On the "Manage Display" tab, drag the newly created JBrowse field to where you want it to display.
 
-## Progress
+## Progress/Task List
  - [x] Get field, widget added
  - [x] Get (any) data to show up in the field
  - [x] Get desired info from database, construct iframe.
@@ -26,3 +26,4 @@ The URL of the JBrowse instance in the iframe is configurable to fit most URL sc
     - [x] JBrowse iframe
     - [ ] Link
  - [x] Make links dynamically generated (possible to not have to read from DB each time?)
+ - [ ] mRNA Page
