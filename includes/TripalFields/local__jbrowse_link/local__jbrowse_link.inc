@@ -126,7 +126,19 @@ class local__jbrowse_link extends ChadoField {
     //$base_url = "https://apollo.nal.usda.gov/apollo/";
     // Get the URL template
     // Load saved settings from the database
-    $query = "select name, value from gene_jbrowse_field_config where name='url_template'";
+    $bundle_type = $record->type_id->name;
+    if ($bundle_type == 'gene')
+    {
+      $query = "select name, value from gene_jbrowse_field_config where name='url_template'";
+    }
+    elseif ($bundle_type == 'mRNA')
+    {
+      $query = "select name, value from gene_jbrowse_field_config where name='mrna_url_template'";
+    }
+    else
+    {
+      dpm("not gene or mrna");
+    }
     $results = db_query($query);
 
     if ($results->rowCount() == 0)
