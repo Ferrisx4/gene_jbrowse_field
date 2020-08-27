@@ -56,15 +56,25 @@ $form['template_description'] = array(
     '#collapsed'    => FALSE,
     '#description'  => format_string('The following wildcards/variables are available to help you build your URL. 
     You can insert them by including [name] into the field.
+    <p>
+    Organism Information
     <ul>
     <li>[genus], [g]</li>
     <li>[species], [s]</li>
     <li>[common name]</li>
+    </ul>
+    Sequence Information
+    <ul>
     <li>[coords]</li>
-    <li>[child sequence name]</li>
     <li>[gene name]</li>
+    <li>[uniquename]</li>
+    </ul>
+    Related Information
+    <ul>
+    <li>[child sequence name]</li>
     <li>[analysis name]</li>
     </ul>
+    </p>
     ')
 );
 

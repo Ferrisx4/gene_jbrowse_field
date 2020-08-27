@@ -149,7 +149,7 @@ class local__jbrowse_link extends ChadoField {
     {
         $url_template = $results->fetchAssoc()[value];
     }
-    // Get the genus, species
+    // Get the genus, species, and common name of the organism
     if ($record)
     {
       // genus, species, common name
@@ -229,7 +229,8 @@ class local__jbrowse_link extends ChadoField {
       'coords'        => $seq_coords,
       'child sequence name' => $child->name,
       'gene name'     => $record->name,
-      'analysis name' => $analysis_title
+      'analysis name' => $analysis_title,
+      'uniquename'   => $record->uniquename,
     );
     // Expand the array with special CaSeS and such
     $toks['Genus']      = ucfirst($toks[genus]);

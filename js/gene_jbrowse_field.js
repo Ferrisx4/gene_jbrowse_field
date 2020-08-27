@@ -7,6 +7,7 @@ var subs = new Object();
     subs["child sequence name"] = "OFAS011230-RA";
     subs["gene name"]       = "OFAS019435";
     subs["analysis name"]   = "blue analysis";
+    subs["uniquename"]      = "Ribequa";
     subs["g"]               = "f";
     subs["s"]               = "e";
     subs["G"]               = "F";
