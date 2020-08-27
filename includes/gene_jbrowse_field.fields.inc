@@ -37,7 +37,7 @@ function gene_jbrowse_field_bundle_fields_info($entity_type, $bundle) {
   // property of the bundle to determine if this bundle is really the one
   // we want the field to be associated with.
   //if (isset($bundle->data_table) AND ($bundle->data_table == $my_data_table)) {
-  if (isset($bundle->data_table) and ($bundle->data_table == 'feature') and $bundle->term->name == 'gene') {
+  if (isset($bundle->data_table) and ($bundle->data_table == 'feature') and ($bundle->term->name == 'gene' or $bundle->term->name == 'mRNA')) {
     // First add my term.
     tripal_insert_cvterm(array(
       'id' => 'local:jbrowse',
@@ -58,7 +58,7 @@ function gene_jbrowse_field_bundle_fields_info($entity_type, $bundle) {
         'type' => 'field_chado_storage',
       ),
     );
-  } 
+  }
 
   return $fields;
 }
@@ -87,9 +87,8 @@ function gene_jbrowse_field_bundle_fields_info($entity_type, $bundle) {
  */
 function gene_jbrowse_field_bundle_instances_info($entity_type, $bundle) {
   $instances = array();
-
   //if (isset($bundle->data_table) AND ($bundle->data_table == $my_data_table)) {
-  if (isset($bundle->data_table) and ($bundle->data_table == 'feature') and $bundle->term->name == 'gene') {
+  if (isset($bundle->data_table) and ($bundle->data_table == 'feature') and ($bundle->term->name == 'gene' or $bundle->term->name == 'mRNA')) {
     $field_name = 'local__jbrowse_link';
     $field_type = 'local__jbrowse_link';
     $instances[$field_name] =  array(

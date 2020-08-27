@@ -31,16 +31,21 @@ $breadcrumb[] = l('Gene JBrowse Field', 'admin/tripal/extension/gene_jbrowse_fie
 drupal_set_breadcrumb($breadcrumb);
 
 // Load saved settings from the database
-$query = "select name, value from gene_jbrowse_field_config where name='url_template'";
+$query = "select name, value from gene_jbrowse_field_config";
 $results = db_query($query);
+
 
 if ($results->rowCount() == 0)
 {
-    $url_template = "https://";
+    // Set all the fields to a default if there is no info in the database
+    $url_template = $mrna_url_template = "https://default.com/[genus]";
 }
 else
 {
-    $url_template = $results->fetchAssoc()[value];
+    while($field = $results->fetchAssoc())
+    {
+        $fields[$field['name']] = $field['value'];
+    }
 }
 
 // Description to user of available template wildcards
@@ -63,18 +68,31 @@ $form['template_description'] = array(
     ')
 );
 
-// URL Template Assembly Field
+// URL Template Assembly Field - Gene Pages
 $form['url_template'] = array(
     '#type'         => 'textfield',
-    '#title'        => 'URL Template',
+    '#title'        => 'Gene Page URL Template',
     '#size'         => '150',
     '#max_length'   => '511',
-    '#description'  => 'URL Template for your JBrowse instance',
+    '#description'  => 'URL Template for your JBrowse instance, to be shown on Gene pages',
     '#attributes'   => array('id' => "url_template_field"),
     // Provide a place for the JS preview script to insert the preview link. The JS must insert, via id=jbrowse_preview_link, values innerHTML and href.value (or perhaps just generate this
     //  string in its entirety in JS and just plop it here into an empty div)
-    '#field_suffix' => format_string('<a href="#" target="_blank" id="jbrowse_preview_link">d</a>'),
-    '#default_value' => t($url_template),
+    '#field_suffix' => format_string('<a href="#" target="_blank" id="jbrowse_preview_link_gene">a</a>'),
+    '#default_value' => t($fields['url_template']),
+);
+// URL Template Assembly Field - mRNA Pages
+$form['mrna_url_template'] = array(
+    '#type'         => 'textfield',
+    '#title'        => 'mRNA Page URL Template',
+    '#size'         => '150',
+    '#max_length'   => '511',
+    '#description'  => 'URL Template for your JBrowse instance, to be shown on mRNA pages',
+    '#attributes'   => array('id' => "mrna_url_template_field"),
+    // Provide a place for the JS preview script to insert the preview link. The JS must insert, via id=jbrowse_preview_link, values innerHTML and href.value (or perhaps just generate this
+    //  string in its entirety in JS and just plop it here into an empty div)
+    '#field_suffix' => format_string('<a href="#" target="_blank" id="jbrowse_preview_link_mrna">b</a>'),
+    '#default_value' => t($fields['mrna_url_template']),
 );
 
 // Save/submit button
@@ -101,19 +119,32 @@ function gene_jbrowse_field_config_form_submit($form, &$form_state)
 {
     // Perform the same regex functions from the Javascript preview
     $url_template = $form_state['values']['url_template'];
+    $mrna_url_template = $form_state['values']['mrna_url_template'];
 
     // Get the config_id associated to this setting
     $query = "select config_id from gene_jbrowse_field_config where name='url_template'";
     $results = db_query($query);
     $config_id = $results->fetchAssoc()[config_id];
-    // Submit to the database
 
+    $query = "select config_id from gene_jbrowse_field_config where name='mrna_url_template'";
+    $results = db_query($query);
+    $mrna_config_id = $results->fetchAssoc()[config_id];
+    // Submit to the database
     $new_value = array(
         'config_id' => $config_id,
         'name'  => 'url_template',
         'value' => $url_template,
     );
+
     drupal_write_record('gene_jbrowse_field_config',$new_value,'config_id');
 
-    drupal_set_message("URL Templated updated");
+    $new_value = array(
+        'config_id' => $mrna_config_id,
+        'name'  => 'mrna_url_template',
+        'value' => $mrna_url_template,
+    );
+
+    drupal_write_record('gene_jbrowse_field_config',$new_value,'config_id');
+
+    drupal_set_message("Updated the URL Template for Gene and mRNA pages.");
 }

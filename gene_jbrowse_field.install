@@ -6,8 +6,17 @@
  */
 function gene_jbrowse_field_install()
 {
+    // Default gene page template
     $defaults = array(
         'name'  => 'url_template',
+        'value' => 'https://default.com/[genus]'
+    );
+
+    drupal_write_record('gene_jbrowse_field_config',$defaults);
+
+    // Default mRNA page template
+    $defaults = array(
+        'name'  => 'mrna_url_template',
         'value' => 'https://default.com/[genus]'
     );
 
