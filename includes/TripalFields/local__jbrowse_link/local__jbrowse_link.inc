@@ -228,6 +228,7 @@ class local__jbrowse_link extends ChadoField {
       'common name'   => $common_name,
       'coords'        => $seq_coords,
       'child sequence name' => $child->name,
+      'child sequence uniquename' => $child->uniquename,
       'gene name'     => $record->name,
       'analysis name' => $analysis_title,
       'uniquename'   => $record->uniquename,

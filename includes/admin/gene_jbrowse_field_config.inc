@@ -13,7 +13,8 @@
  *      - species
  *      - common name
  *      - sequence coordinates (with or without +/-)
- *      - child sequence
+ *      - child sequence name
+ *      - child sequence uniquename
  *      - gene name 
  *      - analysis name
  * 
@@ -72,6 +73,7 @@ $form['template_description'] = array(
     Related Information
     <ul>
     <li>[child sequence name]</li>
+    <li>[child sequence uniquename]</li>
     <li>[analysis name]</li>
     </ul>
     </p>
