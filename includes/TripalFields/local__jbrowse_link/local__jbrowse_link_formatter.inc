@@ -43,7 +43,13 @@ class local__jbrowse_link_formatter extends ChadoFieldFormatter {
     //$output = $entity->{$field}['und'][0]['value'];
 
     $output = $entity->{$field}['und'][0]['value'];
-    $iframe_code = '<iframe width="100%" height="500px" src="'.$output.'"></iframe>';
+    // 508 Compliance section
+    $iframe_title = "Embedded JBrowse Viewer for " . $entity->chado_record->name;
+    $iframe_description = "The below embedded viewer is not fully accessible, 
+                            however you can view the coordinate data in the 'Sequence 
+                            Coordinates' field in the Summary tab on this page.";
+    $iframe_code = '<p id="iframe_description" class="sr_only">' . $iframe_description . '</p>';
+    $iframe_code .= '<iframe width="100%" height="500px" title="' . $iframe_title . '" src="'.$output.'"></iframe>';
     // for testing without burdening the remote resource: $iframe_code = '<a id="iframe_code" target="_blank" href="'.$output.'">The JBrowse (opens in new tab): '.$output.'</a>';
       $element[] = [
         '#type' => 'markup',

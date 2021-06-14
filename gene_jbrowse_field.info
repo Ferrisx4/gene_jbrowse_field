@@ -5,3 +5,4 @@ files[] = gene_jbrowse_field.module
 version=7.x-3.0
 dependencies[] = tripal
 scripts[] = js/gene_jbrowse_field.js
+stylesheets[all][] = css/gene_jbrowse_field.css
